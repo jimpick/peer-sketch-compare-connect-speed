@@ -1,0 +1,21 @@
+{
+  "name": "peer-sketch-compare-connect-speed",
+  "version": "1.0.0",
+  "description": "Let's compare two versions of peer-base",
+  "main": "index.js",
+  "scripts": {
+    "start": "node parent 2> /dev/null",
+    "test": "npm start"
+  },
+  "keywords": [],
+  "author": "Jim Pick (@jimpick)",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "delay": "^4.1.0",
+    "diffy": "^2.1.0",
+    "get-port": "^4.1.0",
+    "libp2p-websocket-star-rendezvous": "^0.3.0",
+    "xstate": "^4.2.3"
+  }
+}
