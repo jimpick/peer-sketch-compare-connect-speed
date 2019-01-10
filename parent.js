@@ -31,37 +31,19 @@ for (let i = 0; i < numPeers; i++) {
     const prevPeerLabelUpper = prevPeerLabel.toUpperCase()
     const lastPeerLabel = String.fromCharCode(aCharCode + numPeers - 1) + j
     const lastPeerLabelUpper = lastPeerLabel.toUpperCase()
-    const waitingState = (i !== numPeers - 1)
-      ? 'waiting for last'
-      : 'last peer ready'
     peerStates[`peer${peerLabelUpper}`] = {
       initial: 'not started',
       states: {
         'not started': {
           on: {
-            NEXT: {
-              target: 'starting',
-              cond: ctx => !i || ctx[`ready${prevPeerLabelUpper}`]
-            }
+            NEXT: 'starting'
           }  
         },
         starting: {
           onEntry: () => { peers[peerLabel] = startPeer(peerLabel) },
           on: {
             NEXT: { actions: () => { peers[peerLabel].send('NEXT') } },
-            [`PEER ${peerLabelUpper}:COLLABORATION CREATED`]: waitingState
-          }
-        },
-        'waiting for last': {
-          onEntry: assign({[`ready${peerLabelUpper}`]: true}),
-          on: {
-            [`PEER ${lastPeerLabelUpper}:COLLABORATION CREATED`]: 'paused'
-          }
-        },
-        'last peer ready': {
-          onEntry: assign({[`ready${peerLabelUpper}`]: true}),
-          on: {
-            '': 'paused'
+            [`PEER ${peerLabelUpper}:COLLABORATION CREATED`]: 'paused'
           }
         },
         paused: {
@@ -238,9 +220,7 @@ function startPeer (peerLabel) {
 }
 
 function appendToLog (msg) {
-  chunkToWidth(msg).forEach(line => {
-    log.push(`RV: ${line}`)
-  })
+  chunkToWidth(msg).forEach(line => log.push(line))
   d.render()
 }
 
