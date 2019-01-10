@@ -10,6 +10,6 @@
   "author": "Jim Pick (@jimpick)",
   "license": "MIT",
   "dependencies": {
-    "peer-base": "^0.11.1"
+    "peer-base": "0.11.1"
   }
 }

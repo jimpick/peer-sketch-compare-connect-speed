@@ -77,7 +77,7 @@ const peerMachine = Machine({
       invoke: {
         id: 'typeSomeStuff',
         src: async () => {
-          const lowerLabel = process.env['PEER_LABEL']
+          const lowerLabel = process.env['PEER_LABEL'].slice(0, 1)
           const upperLabel = lowerLabel.toUpperCase()
           collaboration.shared.push(lowerLabel)
           await delay(100)
