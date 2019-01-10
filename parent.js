@@ -41,7 +41,7 @@ for (let i = 0; i < numPeers; i++) {
           on: {
             NEXT: {
               target: 'starting',
-              cond: ctx => !i || ctx[`ready${prevPeerLabelUpper}`]
+              cond: ctx => !i || ctx[`edited${prevPeerLabelUpper}`]
             }
           }  
         },
@@ -49,27 +49,13 @@ for (let i = 0; i < numPeers; i++) {
           onEntry: () => { peers[peerLabel] = startPeer(peerLabel) },
           on: {
             NEXT: { actions: () => { peers[peerLabel].send('NEXT') } },
-            [`PEER ${peerLabelUpper}:COLLABORATION CREATED`]: waitingState
-          }
-        },
-        'waiting for last': {
-          onEntry: assign({[`ready${peerLabelUpper}`]: true}),
-          on: {
-            [`PEER ${lastPeerLabelUpper}:COLLABORATION CREATED`]: 'paused'
-          }
-        },
-        'last peer ready': {
-          onEntry: assign({[`ready${peerLabelUpper}`]: true}),
-          on: {
-            '': 'paused'
+            [`PEER ${peerLabelUpper}:COLLABORATION CREATED`]: 'paused'
           }
         },
         paused: {
+          onEntry: assign({[`ready${peerLabelUpper}`]: true}),
           on: {
-            NEXT: {
-              target: 'editing',
-              cond: ctx => !i || ctx[`edited${prevPeerLabelUpper}`]
-            }
+            NEXT: 'editing'
           }
         },
         editing: {
